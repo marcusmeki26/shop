@@ -40,6 +40,7 @@ public class SecurityConfig {
                 .build();
     }
 
+    // This two beans identifies how you authenticate the username and password of the user.
     // Overriding the default Authentication. Creating a custom way on how to authenticate a user using DaoAuthenticationProvider.
     @Bean
     public AuthenticationProvider authenticationProvider(){
