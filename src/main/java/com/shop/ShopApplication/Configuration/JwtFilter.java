@@ -2,7 +2,7 @@ package com.shop.ShopApplication.Configuration;
 
 
 import com.shop.ShopApplication.Service.JWTService;
-import com.shop.ShopApplication.Service.UserService;
+import com.shop.ShopApplication.Service.UserDetailService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,7 +39,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         // Checks if there is a token with it.
         if(username != null){
-            UserDetails userDetails = context.getBean(UserService.class).loadUserByUsername(username); // This code allows you to access Spring managed beans without injecting the object using constructor to avoid circular reference
+            UserDetails userDetails = context.getBean(UserDetailService.class).loadUserByUsername(username); // This code allows you to access Spring managed beans without injecting the object using constructor to avoid circular reference
                                                                                                        // Basically use are just accessing the loadUserByUsername method from the UserService Class
             // check if the token and userDetails is matching create a new authentication object and send it to context.
             if(jwtService.validateToken(token, userDetails)){
