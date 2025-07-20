@@ -16,41 +16,75 @@ import java.util.function.Function;
 @Service
 public class JWTService {
 
-    @SuppressWarnings("FieldMayBeFinal")
-    private String secretKey;
+    private final String accessSecretKey;
+    private final String refreshSecretKey;
 
     public JWTService(){
         // This generates a key to be used by secretKey.
         try {
             KeyGenerator keyGen = KeyGenerator.getInstance("HmacSHA256");
             SecretKey sk = keyGen.generateKey();
-            secretKey = Base64.getEncoder().encodeToString(sk.getEncoded());
+            accessSecretKey = Base64.getEncoder().encodeToString(sk.getEncoded());
+
+            KeyGenerator refreshKeyGen = KeyGenerator.getInstance("HmacSHA256");
+            SecretKey refreshSk = refreshKeyGen.generateKey();
+            refreshSecretKey = Base64.getEncoder().encodeToString(refreshSk.getEncoded());
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public String generateToken(String username) {
-        List<String> roles = List.of("ROLE_USER", "ROLE_ADMIN"); // Create a roles. We will do a helper method to get the role from the database.
-        Map<String, Object> claims = new HashMap<>(); // used to store the JWT into JSON object
-        claims.put("roles", roles); // inserting the roles inside the claims object.
+    public Map<String, String> generateToken(String username, String userId) {
+        // List<String> roles = List.of("ROLE_USER", "ROLE_ADMIN"); // Create a roles. We will do a helper method to get the role from the database.
+        // claims.put("roles", roles); // inserting the roles inside the claims object.
 
-        return Jwts.builder()
-                .claims()// starts the nested claims
-                .add(claims) // uses the map to set the key-value pairs below.
-                .subject(username) // sets sub - username = "sub": "username"
-                .issuedAt(new Date(System.currentTimeMillis())) // sets iat - date = "iat": "1752848877"
-                .expiration(new Date(System.currentTimeMillis() + 60 * 60 * 30)) // sets exp - date = "exp": "1752848985"
-                .and() // exits the nested claims
-                .signWith(getKey()) // signs the JWT using a secret key
-                .compact(); // finalizes JWT and returns it as a String.
+        Map<String, String> jwtTokens = new HashMap<>(); // used to make access token and refresh token in JSON object.
+        Map<String, Object> claims = new HashMap<>(); // used to store the JWT into JSON object
+
+        jwtTokens.put("access_token", createAccessToken(username));;
+        jwtTokens.put("refresh_token", createToken(claims, userId, issuedAt(), expRefreshToken(), refreshSecretKey));
+        return jwtTokens;
+    }
+
+    // Method for creating access token.
+    public String createAccessToken(String subject){
+        Map<String, Object> claims = new HashMap<>();
+        return createToken(claims, subject, issuedAt(), expAccessToken(), accessSecretKey);
     }
 
     // This is a helper method for signWith() method for generating a token.
-    private SecretKey getKey() {
+    private SecretKey getAccessKey(String secretKey) {
         System.out.println(secretKey);
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes); // returns a secret key based on the passed bytes. This uses HMAC-SHA algorithm
+    }
+
+    // This is a helper method for creating a token.
+    private String createToken(Map<String, Object> claims, String subject, Date iat, Date exp, String secretKey){
+        return Jwts.builder()
+                .claims()// starts the nested claims
+                .add(claims) // uses the map to set the key-value pairs below.
+                .subject(subject) // sets sub - username = "sub": "username"
+                .issuedAt(iat) // sets iat - date = "iat": "1752848877"
+                .expiration(exp) // sets exp - date = "exp": "1752848985"
+                .and() // exits the nested claims
+                .signWith(getAccessKey(secretKey)) // signs the JWT using a secret key
+                .compact(); // finalizes JWT and returns it as a String
+    }
+
+    // returning the current date and time
+    private Date issuedAt(){
+        return new Date(System.currentTimeMillis());
+    }
+
+    // returning expiration for access token
+    private Date expAccessToken(){
+        return new Date(System.currentTimeMillis() + 60 * 60 * 30);
+    }
+
+    // returning expiration for refresh token
+    private Date expRefreshToken(){
+        return new Date(System.currentTimeMillis() + 60 * 60 * 50);
     }
 
     // This method is used to extract the username from the token and return it to validateToken method.
@@ -67,25 +101,55 @@ public class JWTService {
     // This will parse and verifies the JWT. This verifies the token using the verifyWith method and parseSignedClaims method. Then, it returns the claims part of the token using getPayload method.
     private Claims extractAllClaims(String token) {
         return Jwts.parser()
-                .verifyWith(getKey())
+                .verifyWith(getAccessKey(accessSecretKey))
                 .build()
                 .parseSignedClaims(token)
-                .getPayload();
+                .getPayload(); // return Claims
     }
 
     // This checks if the username from the token and username from the UserDetails is equal
     public boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return (username.equals(userDetails.getUsername()) && isTokenExpired(token));
     }
 
     // This checks if the date from the token is expired
     private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
+        return !extractExpiration(token).before(new Date());
     }
 
     // This method is used to extract the date from the token and return it to isTokenExpired method.
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
+    }
+
+    // Method for checking/validating refresh token
+    public String validateRefreshToken(String token){
+        if(isTokenRefreshExpired(token))
+            return extractRefreshClaim(token, Claims::getSubject);
+
+        return null;
+    }
+
+    private boolean isTokenRefreshExpired(String token) {
+        return !extractRefreshExpiration(token).before(new Date());
+    }
+
+    private Date extractRefreshExpiration(String token) {
+        return extractRefreshClaim(token, Claims::getExpiration);
+    }
+
+    private <T> T extractRefreshClaim(String token, Function<Claims, T> claimResolver) {
+        final Claims claims = extractUserIdAllClaims(token);
+        return claimResolver.apply(claims);
+    }
+
+    private Claims extractUserIdAllClaims(String token) {
+        System.out.println("Refresh key from valiation: " + refreshSecretKey);
+        return Jwts.parser()
+                .verifyWith(getAccessKey(refreshSecretKey))
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 }
