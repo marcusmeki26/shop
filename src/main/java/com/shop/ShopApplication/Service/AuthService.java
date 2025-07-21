@@ -34,7 +34,7 @@ public class AuthService {
 
         if(authentication.isAuthenticated()){
             Users userData = repo.findByUsername(user.getUsername());
-            return jwtService.generateToken(userData.getUsername(), userData.getId()); // calling the method to generate the token.
+            return jwtService.generateToken(userData.getUsername(), userData.getUserId()); // calling the method to generate the token.
         }
 
         return Map.of("Failed", "Wrong User");
@@ -48,7 +48,7 @@ public class AuthService {
         if(userId == null)
             return Map.of("Failed", "Invalid Refresh Token");
 
-        Users user = repo.findById(userId);
+        Users user = repo.findByUserId(userId);
         if(user == null)
             return Map.of("Failed", "No Users Found");
 
