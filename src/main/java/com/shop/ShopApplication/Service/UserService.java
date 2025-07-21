@@ -12,8 +12,13 @@ import java.util.List;
 public class UserService {
     private UserRepository repo;
 
-    // used for fetching the user
+    // used for fetching all user
     public List<Users> getUsers() {
         return repo.findAll();
+    }
+
+    // used for fetching a user by id
+    public Users getUserById(String userId) {
+        return repo.findByUserId(userId);
     }
 }
