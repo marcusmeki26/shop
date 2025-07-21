@@ -1,7 +1,6 @@
 package com.shop.ShopApplication.Entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,10 +9,12 @@ import lombok.Setter;
 @Setter
 public class Users {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String userId;
     @Column(name="username")
     private String username;
     @Column(name="password")
     private String password;
+    @Column(name="role")
+    private String role;
 }
