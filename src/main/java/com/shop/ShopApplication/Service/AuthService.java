@@ -1,5 +1,6 @@
 package com.shop.ShopApplication.Service;
 
+import com.shop.ShopApplication.Dto.UserCredentialsDto;
 import com.shop.ShopApplication.Entity.Users;
 import com.shop.ShopApplication.Repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -21,20 +22,20 @@ public class AuthService {
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12); // used final to be excluded from the @AllArgsConstructor
 
     // used for inserting a user
-    public Users register(Users user){
+    public UserCredentialsDto register(Users user){
         user.setPassword(encoder.encode(user.getPassword())); // This sets the password field as the encrypted password.
-        return repo.save(user);
+        return UserCredentialsDto.toUserDto(repo.save(user));
     }
 
     // used for verifying a user during login
-    public Map<String, String> verify(Users user) {
+    public Map<String, String> verify(UserCredentialsDto user) {
         Authentication authentication = authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
         ); // The authenticate method will call the AuthenticationProvider and verify if the user is valid. The Authentication object will receive the UserPrincipal if there is a user.
 
         if(authentication.isAuthenticated()){
             Users userData = repo.findByUsername(user.getUsername());
-            return jwtService.generateToken(userData.getUsername(), userData.getUserId()); // calling the method to generate the token.
+            return jwtService.generateToken(userData.getUsername(), userData.getUserId(), userData.getRole()); // calling the method to generate the token.
         }
 
         return Map.of("Failed", "Wrong User");
@@ -52,6 +53,6 @@ public class AuthService {
         if(user == null)
             return Map.of("Failed", "No Users Found");
 
-        return Map.of("access_token", jwtService.createAccessToken(user.getUsername()));
+        return Map.of("access_token", jwtService.createAccessToken(user.getUsername(), user.getRole()));
     }
 }
