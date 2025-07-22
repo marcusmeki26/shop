@@ -1,0 +1,11 @@
+<div class="flex w-full h-screen items-center justify-center bg-red-400">
+  <div>
+    <h1 class="mb-5 text-2xl text-white">Login</h1>
+    <form class="flex flex-col" #loginForm="ngForm" (ngSubmit)="checkCred(loginForm)">
+      <input class="mb-5 rounded-md text-2xl px-2" type="text" name="username" #username="ngModel" [(ngModel)]="userCred.username" required />
+      <input class="mb-5 rounded-md text-2xl px-2" type="password" name="password" #password="ngModel" [(ngModel)]="userCred.password" required />
+      <button class="mb-5" type="submit">Login</button>
+      <button (click)="register()" type="button">Register</button>
+    </form>
+  </div>
+</div>
