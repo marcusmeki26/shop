@@ -34,21 +34,22 @@ public class JWTService {
         }
     }
 
-    public Map<String, String> generateToken(String username, String userId) {
+    public Map<String, String> generateToken(String username, String userId, String role) {
         // List<String> roles = List.of("ROLE_USER", "ROLE_ADMIN"); // Create a roles. We will do a helper method to get the role from the database.
         // claims.put("roles", roles); // inserting the roles inside the claims object.
 
         Map<String, String> jwtTokens = new HashMap<>(); // used to make access token and refresh token in JSON object.
         Map<String, Object> claims = new HashMap<>(); // used to store the JWT into JSON object
 
-        jwtTokens.put("access_token", createAccessToken(username));;
+        jwtTokens.put("access_token", createAccessToken(username, role));;
         jwtTokens.put("refresh_token", createToken(claims, userId, issuedAt(), expRefreshToken(), refreshSecretKey));
         return jwtTokens;
     }
 
     // Method for creating access token.
-    public String createAccessToken(String subject){
+    public String createAccessToken(String subject, String role){
         Map<String, Object> claims = new HashMap<>();
+        claims.put("role", role);
         return createToken(claims, subject, issuedAt(), expAccessToken(), accessSecretKey);
     }
 
