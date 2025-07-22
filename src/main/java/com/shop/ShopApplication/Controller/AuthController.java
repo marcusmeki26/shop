@@ -1,6 +1,7 @@
 package com.shop.ShopApplication.Controller;
 
 import com.shop.ShopApplication.Dto.RefreshTokenDto;
+import com.shop.ShopApplication.Dto.UserCredentialsDto;
 import com.shop.ShopApplication.Entity.Users;
 import com.shop.ShopApplication.Service.AuthService;
 import lombok.AllArgsConstructor;
@@ -15,12 +16,12 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/register")
-    public Users register(@RequestBody Users user){
+    public UserCredentialsDto register(@RequestBody Users user){
         return authService.register(user);
     }
 
     @PostMapping("/login")
-    public Map<String, String> login(@RequestBody Users user){
+    public Map<String, String> login(@RequestBody UserCredentialsDto user){
         return authService.verify(user);
     }
 
