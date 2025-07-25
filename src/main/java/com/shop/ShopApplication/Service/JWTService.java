@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import javax.crypto.SecretKey;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class JWTService {
@@ -34,7 +36,7 @@ public class JWTService {
         }
     }
 
-    public Map<String, String> generateToken(String username, String userId, String role) {
+    public Map<String, String> generateToken(String username, String userId, Collection<? extends GrantedAuthority> role) {
         // List<String> roles = List.of("ROLE_USER", "ROLE_ADMIN"); // Create a roles. We will do a helper method to get the role from the database.
         // claims.put("roles", roles); // inserting the roles inside the claims object.
 
@@ -47,15 +49,18 @@ public class JWTService {
     }
 
     // Method for creating access token.
-    public String createAccessToken(String subject, String role){
+    public String createAccessToken(String subject, Collection<? extends GrantedAuthority> role){
         Map<String, Object> claims = new HashMap<>();
-        claims.put("role", role);
+        List<String> roles = role.stream()
+                        .map(GrantedAuthority::getAuthority)
+                        .collect(Collectors.toList());
+        claims.put("role", roles);
         return createToken(claims, subject, issuedAt(), expAccessToken(), accessSecretKey);
     }
 
     // This is a helper method for signWith() method for generating a token.
     private SecretKey getAccessKey(String secretKey) {
-        System.out.println(secretKey);
+//        System.out.println(secretKey);
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes); // returns a secret key based on the passed bytes. This uses HMAC-SHA algorithm
     }
@@ -80,12 +85,12 @@ public class JWTService {
 
     // returning expiration for access token
     private Date expAccessToken(){
-        return new Date(System.currentTimeMillis() + 60 * 60 * 30);
+        return new Date(System.currentTimeMillis() + 60 * 60 * 1000); // an hour long
     }
 
     // returning expiration for refresh token
     private Date expRefreshToken(){
-        return new Date(System.currentTimeMillis() + 60 * 60 * 50);
+        return new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 30); // a month long
     }
 
     // This method is used to extract the username from the token and return it to validateToken method.
@@ -126,6 +131,10 @@ public class JWTService {
 
     // Method for checking/validating refresh token
     public String validateRefreshToken(String token){
+        if(token == null || token.trim().isEmpty()){
+            return null;
+        }
+
         if(isTokenRefreshExpired(token))
             return extractRefreshClaim(token, Claims::getSubject);
 
