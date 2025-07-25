@@ -1,15 +1,17 @@
 <div class="flex w-full h-screen items-center justify-center bg-red-400">
-  <div>
+  <div class="register-container p-4">
     <h1 class="mb-5 text-2xl text-white">Registration</h1>
     <form class="flex flex-col" #newUser="ngForm" (ngSubmit)="registerUser(newUser)">
       <input class="mb-5 rounded-md text-2xl px-2" type="text" name="username" #username="ngModel" [(ngModel)]="userCred.username" required />
       <input class="mb-5 rounded-md text-2xl px-2" type="password" name="password" #password="ngModel" [(ngModel)]="userCred.password" required />
       <select class="mb-5 rounded-md text-2xl px-2" name="role" #role="ngModel" [(ngModel)]="userCred.role">
-        <option value="ROLE_USER">User</option>
-        <option value="ROLE_OWNER">Owner</option>
+        <option value="user">User</option>
+        <option value="owner">Owner</option>
       </select>
-      <button class="mb-5" type="submit">Register</button>
-      <button type="button" (click)="goBack()">Cancel</button>
+      <div class="flex gap-3">
+        <button class="w-full bg-red-400 text-xl text-white rounded-md" type="submit">Register</button>
+        <button class="w-full bg-red-400 text-xl text-white rounded-md" type="button" (click)="goBack()">Cancel</button>
+      </div>
     </form>
   </div>
 </div>

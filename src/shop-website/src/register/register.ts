@@ -25,12 +25,11 @@ export class Register {
   registerUser(newUser: NgForm){
     this.authSevice.register(newUser.value).subscribe({
       next: res => {
-        console.log(res);
-        window.alert("Successfully Created");
+        window.alert("Successfully Created\n" + JSON.stringify(res));
         this.router.navigate(['/login']);
       },
       error: err => {
-        if(err.status) window.alert("Unsuccessful") 
+        window.alert("Unsuccessful\n" + JSON.stringify(err.error.fieldErrors)); 
       }
     });
   }

@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class Login {
   constructor(private authService : Auth, private router: Router){}
 
-  userCred: UserCredential = {
+  userCred: UserLogin = {
     username: '',
     password: '',
   }
@@ -27,13 +27,14 @@ export class Login {
         let role = this.authService.getRoleFromToken(); // extract the role from the token
 
         // After extracting, it will define where the logged user should go.
-        if (role === 'ROLE_USER') this.router.navigate(['/user']);
-        else if (role === 'ROLE_ADMIN') this.router.navigate(['/admin']);
-        else if (role === 'ROLE_OWNER') this.router.navigate(['/owner']);
+        if (role.includes('ROLE_USER')) this.router.navigate(['/user']);  
+        else if (role.includes('ROLE_ADMIN')) this.router.navigate(['/admin']);
+        else if (role.includes('ROLE_OWNER')) this.router.navigate(['/owner']);
         // else this.router.navigate(['/unauthorized']);
       }, // used if the request is success
       error: err => {
-        if(err.status) window.alert("Invalid Credentials");
+        if(err.status == 400) window.alert("Invalid Credentials\n" + JSON.stringify(err.error.fieldErrors));
+        if(err.status == 401) window.alert("Wrong username or password");
       } // used if there is an error
     })
   }

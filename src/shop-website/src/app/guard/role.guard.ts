@@ -12,6 +12,6 @@ export class Role implements CanActivate{
     const expectedRole = route.data['expectedRole'];
     const userRole = this.authService.getRoleFromToken();
 
-    return expectedRole === userRole;
+    return userRole.includes(expectedRole);
   }
 }

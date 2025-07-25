@@ -1,13 +1,30 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Dashboard } from './dashboard/dashboard';
+import { AdminLayout } from './admin-layout/admin-layout';
+import { UserList } from './user-list/user-list';
+import { OwnerList } from './owner-list/owner-list';
 
 const routes: Routes = [
-  { 
-    path: 'dashboard', 
-    component: Dashboard
+  {
+    path: '',
+    component: AdminLayout,
+    children: [
+      {
+        path: 'dashboard', 
+        component: Dashboard
+      },
+      {
+        path: 'users',
+        component: UserList,
+      },
+      {
+        path: 'owner',
+        component: OwnerList
+      },
+      { path: '**', redirectTo: 'dashboard', pathMatch: 'full' }
+    ]
   },
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
 ];
 
 @NgModule({

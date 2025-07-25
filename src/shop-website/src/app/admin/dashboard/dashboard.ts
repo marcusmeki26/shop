@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,11 +7,7 @@ import { Router } from '@angular/router';
   styleUrl: './dashboard.css'
 })
 export class Dashboard {
-  // admin
-  constructor(private router: Router){}
   
-  logout(){
-    localStorage.clear()
-    this.router.navigate(['']);
-  }
+  constructor(){}
+  
 }

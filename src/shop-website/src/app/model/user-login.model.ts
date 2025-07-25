@@ -1,4 +1,4 @@
-interface UserCredential{
+interface UserLogin{
   username : String,
   password : String
 }
