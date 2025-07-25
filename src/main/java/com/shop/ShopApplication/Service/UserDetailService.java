@@ -19,12 +19,8 @@ public class UserDetailService implements UserDetailsService {
     // The spring will look for this method to check how the user should be verified.
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Users user = repo.findByUsername(username);
-
-        if(user == null){
-            System.out.println("User not found");
-            throw new UsernameNotFoundException("User not found");
-        }
+        Users user = repo.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("No user found"));
         // We created a class of UserPrincipal since UserDetails is an interface.
         return new UserPrincipal(user);
     }
