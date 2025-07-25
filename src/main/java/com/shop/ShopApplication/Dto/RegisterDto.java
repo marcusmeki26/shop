@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class UserCredentialsDto {
+public class RegisterDto {
     @NotEmpty(message="Username should not be empty")
     private String username;
     @NotEmpty(message="Password should not be empty")
@@ -19,15 +19,16 @@ public class UserCredentialsDto {
     @NotEmpty(message="Please include a role")
     private String role;
 
-    public static UserCredentialsDto toUserDto(Users user){
-        UserCredentialsDto userDto = new UserCredentialsDto();
+    public static RegisterDto toUser(Users user){
+        RegisterDto userDto = new RegisterDto();
         userDto.setUsername(user.getUsername());
         userDto.setPassword(user.getPassword());
+        userDto.setRole(user.getRole());
 
         return userDto;
     }
 
-    public static Users toUser(UserCredentialsDto user) {
+    public static Users toUser(RegisterDto user) {
         Users registerUser = new Users();
         registerUser.setUsername(user.getUsername());
         registerUser.setPassword(user.getPassword());
