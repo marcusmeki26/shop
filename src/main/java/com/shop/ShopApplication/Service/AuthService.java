@@ -1,15 +1,23 @@
 package com.shop.ShopApplication.Service;
 
-import com.shop.ShopApplication.Dto.UserCredentialsDto;
+import com.shop.ShopApplication.Dto.RegisterDto;
+import com.shop.ShopApplication.Dto.LoginDto;
+import com.shop.ShopApplication.Entity.UserPrincipal;
 import com.shop.ShopApplication.Entity.Users;
+import com.shop.ShopApplication.Exception.ResourceNotFoundException;
 import com.shop.ShopApplication.Repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -22,20 +30,21 @@ public class AuthService {
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12); // used final to be excluded from the @AllArgsConstructor
 
     // used for inserting a user
-    public UserCredentialsDto register(Users user){
-        user.setPassword(encoder.encode(user.getPassword())); // This sets the password field as the encrypted password.
-        return UserCredentialsDto.toUserDto(repo.save(user));
+    public RegisterDto register(RegisterDto user){
+        Users registerUser = RegisterDto.toUser(user);
+        registerUser.setPassword(encoder.encode(user.getPassword())); // This sets the password field as the encrypted password.
+        return RegisterDto.toUser(repo.save(registerUser));
     }
 
     // used for verifying a user during login
-    public Map<String, String> verify(UserCredentialsDto user) {
+    public Map<String, String> verify(LoginDto user) {
         Authentication authentication = authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
-        ); // The authenticate method will call the AuthenticationProvider and verify if the user is valid. The Authentication object will receive the UserPrincipal if there is a user.
+        ); // The authenticate method will call the AuthenticationProvider and verify if the user is valid. The Authentication object will receive the UserPrincipal if there is a user. Will go to UserDetailService
 
-        if(authentication.isAuthenticated()){
-            Users userData = repo.findByUsername(user.getUsername());
-            return jwtService.generateToken(userData.getUsername(), userData.getUserId(), userData.getRole()); // calling the method to generate the token.
+        if(authentication.isAuthenticated()){ // if the user exist and valid
+            UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+            return jwtService.generateToken(userPrincipal.getUsername(), userPrincipal.getUserId(), userPrincipal.getAuthorities()); // calling the method to generate the token.
         }
 
         return Map.of("Failed", "Wrong User");
@@ -53,6 +62,7 @@ public class AuthService {
         if(user == null)
             return Map.of("Failed", "No Users Found");
 
-        return Map.of("access_token", jwtService.createAccessToken(user.getUsername(), user.getRole()));
+        Collection<? extends GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(user.getRole()));
+        return Map.of("accessToken", jwtService.createAccessToken(user.getUsername(), authorities));
     }
 }
