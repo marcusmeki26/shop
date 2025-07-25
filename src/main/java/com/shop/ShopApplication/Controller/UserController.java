@@ -1,5 +1,6 @@
 package com.shop.ShopApplication.Controller;
 
+import com.shop.ShopApplication.Dto.RoleDto;
 import com.shop.ShopApplication.Entity.Users;
 import com.shop.ShopApplication.Service.UserService;
 import lombok.AllArgsConstructor;
@@ -16,14 +17,15 @@ public class UserController {
     private UserService userService;
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping()
-    public List<Users> getUsers(){
-        return userService.getUsers();
+    @PostMapping
+    public List<Users> getUsers(@RequestBody RoleDto role){
+        return userService.getUsers(role.getRole());
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/{userId}")
-    public Users getUserById(@PathVariable("userId") String userId){
-        return userService.getUserById(userId);
+    @PostMapping("/{userId}")
+    public Users getUserById(@PathVariable("userId") String input,
+                            @RequestBody RoleDto role){
+        return userService.getUserById(input, role.getRole());
     }
 }
