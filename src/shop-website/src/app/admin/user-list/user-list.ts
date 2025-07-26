@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { map, Observable, tap } from 'rxjs';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { catchError, Observable, of} from 'rxjs';
 import { Admin } from '../../service/admin';
 import { User } from '../../model/user.model';
 
@@ -12,24 +11,28 @@ import { User } from '../../model/user.model';
 })
 export class UserList {
   users$: Observable<User[]> | null = null;
-  user$: Observable<User> | null = null;
+  user$: Observable<User | null> | null = null;
+  columnName: string[] = ["id", "username", "password"];
   
-  constructor(private admin: Admin){
+  constructor(private admin: Admin, private cdr: ChangeDetectorRef){
     this.user$ = null;
     this.users$ = this.admin.getUsers();
   }
-
-  searchInput = { 
-    userOrId: ''
-  } 
   
-  searchUser(searchForm: NgForm){
-    if(searchForm.value.userOrId != ""){
-      this.users$ = null;
-      this.user$ = this.admin.getUsersById(searchForm.value.userOrId);
+  searchUser(searchInput: string){
+    if(searchInput != ""){
+      this.users$ = null; 
+      this.user$ = this.admin.getUserByIdOrUsername(searchInput).pipe(
+        catchError(err => {
+          if(err.error.status == 404){
+            window.alert("No username or id found");
+          }
+          return of(null);
+        })
+      );
     }else{
-      this.user$ = null;
       this.users$ = this.admin.getUsers();
+      this.user$ = null;
     }
   }
 } 

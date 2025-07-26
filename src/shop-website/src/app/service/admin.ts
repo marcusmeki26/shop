@@ -13,7 +13,15 @@ export class Admin {
     return this.http.post<User[]>(this.BASE_URL, { role: "USER" });
   }
 
-  getUsersById(input: string): Observable<User>{
+  getUserByIdOrUsername(input: string): Observable<User>{
     return this.http.post<User>(`${this.BASE_URL}/${input}`, { role: "USER" });
+  }
+
+  getOwners(): Observable<User[]>{
+    return this.http.post<User[]>(this.BASE_URL, { role: "OWNER" });
+  }
+
+  getOwnerByIdOrUsername(input: string): Observable<User>{
+    return this.http.post<User>(`${this.BASE_URL}/${input}`, { role: "OWNER" });
   }
 }

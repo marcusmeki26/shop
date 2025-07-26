@@ -9,6 +9,7 @@ import { OwnerList } from './owner-list/owner-list';
 import { FormsModule } from '@angular/forms';
 import { Admin } from '../service/admin';
 import { HttpClientModule } from '@angular/common/http';
+import { DisplayUsersTable } from './components/display-users-table/display-users-table';
 
 
 
@@ -17,7 +18,8 @@ import { HttpClientModule } from '@angular/common/http';
     Dashboard,
     AdminLayout,
     UserList,
-    OwnerList
+    OwnerList,
+    DisplayUsersTable
   ],
   imports: [
     CommonModule,
