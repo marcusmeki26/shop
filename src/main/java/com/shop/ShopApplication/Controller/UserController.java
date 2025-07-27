@@ -17,15 +17,15 @@ public class UserController {
     private UserService userService;
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping
-    public List<Users> getUsers(@RequestBody RoleDto role){
-        return userService.getUsers(role.getRole());
+    @GetMapping
+    public List<Users> getUsers(@RequestParam String role){
+        return userService.getUsers(role);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/{userId}")
+    @GetMapping("/{userId}")
     public Users getUserById(@PathVariable("userId") String input,
-                            @RequestBody RoleDto role){
-        return userService.getUserById(input, role.getRole());
+                            @RequestParam String role){
+        return userService.getUserById(input, role);
     }
 }
