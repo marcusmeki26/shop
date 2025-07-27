@@ -21,8 +21,6 @@ public class UserService {
             role = "ROLE_" + role;
         }
 
-        System.out.println(role);
-
         return repo.findAllByRole(role);
     }
 
