@@ -15,7 +15,7 @@ const routes: Routes = [
         component: Dashboard
       },
       {
-        path: 'users',
+        path: 'user',
         component: UserList,
       },
       {

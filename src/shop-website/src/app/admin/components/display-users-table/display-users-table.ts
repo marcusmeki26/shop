@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../../../model/user.model';
 import { NgForm } from '@angular/forms';
-import { Admin } from '../../../service/admin';
 
 @Component({
   selector: 'app-display-users-table',
@@ -12,7 +11,7 @@ import { Admin } from '../../../service/admin';
 })
 export class DisplayUsersTable{
 
-  constructor(private adminService: Admin){}
+  constructor(){}
 
   isArray = Array.isArray;
 

@@ -19,8 +19,13 @@ export class AdminLayout {
   }
 
   clickedTab(tabName: string){
-    this.activeTab = tabName;
-    this.router.navigate([tabName], { relativeTo: this.route });
+    if(tabName != "dashboard"){
+      this.activeTab = tabName;
+      this.router.navigate([tabName], { relativeTo: this.route, queryParams: { role: tabName.toUpperCase() } });
+    }else{
+      this.activeTab = tabName;
+      this.router.navigate([tabName], { relativeTo: this.route });
+    }
   }
   
   logout() {

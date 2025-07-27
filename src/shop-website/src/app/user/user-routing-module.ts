@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ProductList } from './product-list/product-list';
 import { UserLayout } from './user-layout/user-layout';
+import { UserLandingPage } from './user-landing-page/user-landing-page';
 
 const routes: Routes = [
   {
@@ -9,10 +9,9 @@ const routes: Routes = [
     component: UserLayout,
     children: [
       {
-        path: 'products',
-        component: ProductList
+        path: '',
+        component: UserLandingPage
       },
-      { path: '', redirectTo: 'products', pathMatch: 'full'}
     ]
   }
 ];

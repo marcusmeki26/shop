@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Auth } from '../../service/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-layout',
@@ -8,4 +10,14 @@ import { Component } from '@angular/core';
 })
 export class UserLayout {
 
+  username: string = "";
+
+  constructor(private router: Router, private authService: Auth){
+    this.username = this.authService.getUsername();
+  }
+
+  logout() {
+    localStorage.clear();
+    this.router.navigate(['']);
+  }
 }

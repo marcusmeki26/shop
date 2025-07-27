@@ -1,0 +1,39 @@
+<div class="landing-page-container flex flex-col items-center">
+  <!-- Categories Section -->
+  <section class="categories-container bg-white mt-2 rounded-sm"> 
+    <h1 class="pl-4 border-b border-red-400 font-extrabold">CATEGORIES</h1>
+    <div 
+    class="categories-content flex justify-center" 
+    *ngIf="categories$ | async as categories">
+      <div  
+      role="button"
+      tabindex="0"  
+      *ngFor="let category of categories; let i = index"
+      [ngClass]="categories.length != (i+1) ? 'categories-item' : 'categories-item-last'">
+        <img [src]="category.imagePath" [alt]="category.imagePath" />
+        <h6>{{ category.categoryName }}</h6>
+      </div>
+    </div>
+  </section>
+  <!-- Discover Section -->
+  <section class="discover-container mt-4">
+    <!-- Title -->
+    <h1 class="bg-white flex justify-center border-sm p-4 border-b-4 border-red-400 text-2xl">Discover Items</h1>
+    <!-- Product List -->
+    <div 
+    class="grid grid-cols-6 gap-8 mt-4"
+    *ngIf="products$ | async as products">
+      <!-- Product Item -->
+      <div
+      class="product-item flex flex-col items-center w-40 bg-white"
+      *ngFor="let product of products"
+      >
+        <img [src]="product.imagePath" [alt]="product.imagePath">
+        <div class="flex flex-col flex-grow self-start px-3 border-b border-r border-l border-red-50 w-full">
+          <span>{{ product.productName }}</span>
+          <span>{{ product.price | currency: 'PHP':'symbol'}}</span>
+        </div>
+      </div>
+    </div>
+  </section> 
+</div>  

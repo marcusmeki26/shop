@@ -16,13 +16,13 @@ export class OwnerList {
   
   constructor(private admin: Admin){
     this.user$ = null;
-    this.users$ = this.admin.getOwners();
+    this.users$ = this.admin.getUsers();
   }
   
   searchUser(searchInput: string){
     if(searchInput != ""){  
       this.users$ = null; 
-      this.user$ = this.admin.getOwnerByIdOrUsername(searchInput).pipe(
+      this.user$ = this.admin.getUserByIdOrUsername(searchInput).pipe(
         catchError(err => {
           if(err.error.status == 404){
             window.alert("No username or id found");
@@ -31,7 +31,7 @@ export class OwnerList {
         })
       );
     }else{
-      this.users$ = this.admin.getOwners();
+      this.users$ = this.admin.getUsers();
       this.user$ = null;
     }
   }

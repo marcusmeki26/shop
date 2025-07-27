@@ -1,0 +1,12 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+header{
+  border-bottom: 1px solid #ff6467;
+}
+
+main{
+  background-color: rgb(245, 245, 245);
+}
