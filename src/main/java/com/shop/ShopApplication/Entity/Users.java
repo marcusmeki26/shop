@@ -1,9 +1,12 @@
 package com.shop.ShopApplication.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -20,6 +23,11 @@ public class Users {
     private String password;
     @Column(name="role")
     private String role;
+
+    // To enable derived method naming convention
+    @OneToMany(mappedBy = "ownerId")
+    @JsonBackReference
+    private List<Products> productsList;
 
     // Called when .save() method is used
     @PrePersist
