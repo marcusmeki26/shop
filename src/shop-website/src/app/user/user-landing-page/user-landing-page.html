@@ -8,6 +8,7 @@
       <div  
       role="button"
       tabindex="0"  
+      (click)="selectedCategory(category.categoryName)"
       *ngFor="let category of categories; let i = index"
       [ngClass]="categories.length != (i+1) ? 'categories-item' : 'categories-item-last'">
         <img [src]="category.imagePath" [alt]="category.imagePath" />
@@ -27,6 +28,9 @@
       <div
       class="product-item flex flex-col items-center w-40 bg-white"
       *ngFor="let product of products"
+      role="button"
+      tabindex="0"
+      (click)="selectedProduct(product.productName)"
       >
         <img [src]="product.imagePath" [alt]="product.imagePath">
         <div class="flex flex-col flex-grow self-start px-3 border-b border-r border-l border-red-50 w-full">

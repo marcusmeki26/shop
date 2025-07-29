@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UserLayout } from './user-layout/user-layout';
 import { UserLandingPage } from './user-landing-page/user-landing-page';
+import { ProductList } from './product-list/product-list';
 
 const routes: Routes = [
   {
@@ -12,6 +13,10 @@ const routes: Routes = [
         path: '',
         component: UserLandingPage
       },
+      {
+        path: ':productName',
+        component: ProductList
+      }
     ]
   }
 ];

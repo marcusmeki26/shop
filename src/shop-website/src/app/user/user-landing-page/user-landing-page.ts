@@ -11,11 +11,19 @@ import { Product } from '../../model/products.model';
   styleUrl: './user-landing-page.css'
 })
 export class UserLandingPage {
+
   categories$: Observable<Category[]>;
   products$: Observable<Product[]>;
 
   constructor(private userService: User){ 
     this.categories$ = this.userService.getCategories();
     this.products$ = this.userService.getProducts();
+  }
+
+  selectedCategory(arg0: string|undefined) {
+    throw new Error('Method not implemented.');
+  }
+  selectedProduct(arg0: string|undefined) {
+    throw new Error('Method not implemented.');
   }
 }

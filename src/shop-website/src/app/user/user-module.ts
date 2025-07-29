@@ -7,6 +7,9 @@ import { UserLayout } from './user-layout/user-layout';
 import { UserLandingPage } from './user-landing-page/user-landing-page';
 import { HttpClientModule } from '@angular/common/http';
 import { User } from '../service/user';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -18,7 +21,10 @@ import { User } from '../service/user';
   imports: [
     CommonModule,
     UserRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    MatIconModule,
+    MatButtonModule
   ],
   providers: [
     User

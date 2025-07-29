@@ -10,9 +10,4 @@ import { Router } from '@angular/router';
 export class ProductList {
 
   constructor(private router: Router){}
-
-  logout() {
-    localStorage.clear();
-    this.router.navigate(['']);
-  }
 }

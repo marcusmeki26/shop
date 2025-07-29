@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Auth } from '../../service/auth';
 import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-user-layout',
@@ -9,11 +10,18 @@ import { Router } from '@angular/router';
   styleUrl: './user-layout.css'
 })
 export class UserLayout {
-
   username: string = "";
 
   constructor(private router: Router, private authService: Auth){
     this.username = this.authService.getUsername();
+  }
+
+  searchForm = {
+    searchItem: ''
+  }
+
+  searchProduct(searchForm: NgForm) {
+    throw new Error('Method not implemented.');
   }
 
   logout() {
