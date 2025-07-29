@@ -1,6 +1,5 @@
-package com.shop.ShopApplication.Repository;
+package com.shop.ShopApplication.Repository.JPA;
 
-import com.shop.ShopApplication.Dto.RoleDto;
 import com.shop.ShopApplication.Entity.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

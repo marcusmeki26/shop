@@ -1,11 +1,8 @@
-package com.shop.ShopApplication.Repository;
+package com.shop.ShopApplication.Repository.JPA;
 
-import com.shop.ShopApplication.Dto.ProductDto;
 import com.shop.ShopApplication.Entity.Products;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Products, Integer> {

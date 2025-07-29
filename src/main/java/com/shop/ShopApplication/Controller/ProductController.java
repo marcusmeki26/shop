@@ -3,9 +3,7 @@ package com.shop.ShopApplication.Controller;
 import com.shop.ShopApplication.Dto.ProductDto;
 import com.shop.ShopApplication.Service.ProductService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,5 +18,10 @@ public class ProductController {
     @GetMapping
     public List<ProductDto> getProducts(){
         return productService.getProducts();
+    }
+
+    @GetMapping("/{productName}")
+    public List<ProductDto> getProductsByName(@PathVariable String productName){
+        return productService.getProductsByName(productName);
     }
 }
