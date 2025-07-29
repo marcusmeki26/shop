@@ -1,6 +1,5 @@
 package com.shop.ShopApplication.Service;
 
-import com.shop.ShopApplication.Dto.RoleDto;
 import com.shop.ShopApplication.Entity.Users;
 import com.shop.ShopApplication.Exception.ResourceNotFoundException;
 import com.shop.ShopApplication.Repository.UserRepository;
