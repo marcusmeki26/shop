@@ -33,6 +33,9 @@ public class ProductService {
         if(productName.endsWith("s")){
             String singularForm = "%" + productName.substring(0, productName.length()-1) + "%";
             products = repository.findByProductNameLikeOrProductNameLike(singularForm, searchPattern);
+        }else if(productName.contains("-")){
+            String newForm = "%" + productName.replace("-", "") + "%";
+            products = repository.findByProductNameLikeOrProductNameLike(newForm, searchPattern);
         }else{
             // If the passed input is not plural
             products = repository.findByProductNameLike(searchPattern);
