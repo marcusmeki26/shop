@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Auth } from '../../service/auth';
 
@@ -8,15 +8,11 @@ import { Auth } from '../../service/auth';
   templateUrl: './admin-layout.html',
   styleUrl: './admin-layout.css'
 })
-export class AdminLayout { 
+export class AdminLayout implements OnInit { 
   username = "";
   activeTab: any = "";
 
-  constructor(private router: Router, private authService: Auth, private route: ActivatedRoute){
-    this.username = this.authService.getUsername();
-    const fullUrl = this.router.url;
-    this.activeTab = fullUrl.split('?')[0].split('/').pop();
-  }
+  constructor(private router: Router, private authService: Auth, private route: ActivatedRoute){}
 
   clickedTab(tabName: string){
     if(tabName != "dashboard"){
@@ -31,5 +27,11 @@ export class AdminLayout {
   logout() {
     localStorage.clear();
     this.router.navigate(['']);
+  }
+
+  ngOnInit(): void {
+    this.username = this.authService.getUsername();
+    const fullUrl = this.router.url;
+    this.activeTab = fullUrl.split('?')[0].split('/').pop();
   }
 }

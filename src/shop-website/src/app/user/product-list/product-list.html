@@ -1,0 +1,52 @@
+<div class="landing-page-container flex flex-col items-center">
+  <!-- Sorting Section -->
+  <section class="flex flex-col gap-4" style="width: 50%;">
+    <div class="flex items-center gap-4 rounded-md bg-white p-5">
+      <span class="text-xl">Sort by</span>
+      <button 
+      type="button" 
+      class="text-xl rounded-md p-2" 
+      [ngClass]="{ 'active-btn': activeTab === 'relevance' }"
+      (click)="sortProducts('relevance')">
+        Relevance
+      </button>
+      <button   
+      type="button" 
+      class="text-xl rounded-md p-2" 
+      [ngClass]="{ 'active-btn': activeTab === 'latest' }"
+      (click)="sortProducts('latest')">
+        Latest
+      </button>
+      <button 
+      type="button" 
+      class="text-xl rounded-md p-2" 
+      [ngClass]="{ 'active-btn': activeTab === 'top-sales' }"
+      (click)="sortProducts('top-sales')">
+        Top Sales
+      </button>
+    </div>
+    <div 
+    *ngIf="(products$ | async) as products; else noProducts"
+    class="flex">
+      <div 
+      *ngIf="products.length > 0; else noProducts"
+      class="flex gap-4">
+        <div
+        class="product-item flex flex-col items-center w-40 bg-white"
+        *ngFor="let product of products"
+        role="button"
+        tabindex="0">
+        <img [src]="product.imagePath" [alt]="product.imagePath">
+        <div class="flex flex-col flex-grow self-start px-3 border-b border-r border-l border-red-50 w-full">
+          <span>{{ product.productName }}</span>
+          <span>{{ product.price | currency: 'PHP':'symbol'}}</span>
+        </div>
+      </div>
+      </div>
+    </div>
+    <ng-template #noProducts>
+      <h1>No Available Products</h1>
+    </ng-template>
+  </section>
+  <!-- Product Section -->
+</div>

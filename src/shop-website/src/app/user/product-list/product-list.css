@@ -1,0 +1,34 @@
+.landing-page-container{
+  color: #ff6467;
+}
+
+button{
+  outline: none;
+}
+
+.active-btn{
+  background-color: #ff6467;
+  color: white;
+}
+
+.active-btn:hover{
+  background-color: transparent;
+  color: #ff6467;
+  transition: .3s;
+}
+
+.product-item{
+  max-height: 13rem;
+}
+
+.product-item img{
+  width: 100%;
+  height: 75%;
+  object-fit: cover;
+}
+
+.product-item:hover{
+  cursor: pointer;
+  border: 1px solid #ff6467;
+  transition: .3s;
+}

@@ -14,7 +14,7 @@ const routes: Routes = [
         component: UserLandingPage
       },
       {
-        path: ':productName',
+        path: 'search',
         component: ProductList
       }
     ]

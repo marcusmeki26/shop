@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Auth } from '../../service/auth';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -9,23 +9,29 @@ import { NgForm } from '@angular/forms';
   templateUrl: './user-layout.html',
   styleUrl: './user-layout.css'
 })
-export class UserLayout {
+export class UserLayout implements OnInit{
   username: string = "";
 
-  constructor(private router: Router, private authService: Auth){
-    this.username = this.authService.getUsername();
-  }
+  constructor(private router: Router, private authService: Auth, private route: ActivatedRoute){}
 
   searchForm = {
     searchItem: ''
   }
 
   searchProduct(searchForm: NgForm) {
-    throw new Error('Method not implemented.');
+    if(typeof(searchForm) == 'string'){ 
+      this.router.navigate(['search'], { relativeTo: this.route, queryParams: { keyword: searchForm } });
+    }else if(searchForm instanceof NgForm){
+      this.router.navigate(['search'], { relativeTo: this.route, queryParams: { keyword: searchForm.value.searchItem } });
+    }
   }
 
   logout() {
     localStorage.clear();
     this.router.navigate(['']);
+  }
+
+  ngOnInit(): void {
+    this.username = this.authService.getUsername();
   }
 }

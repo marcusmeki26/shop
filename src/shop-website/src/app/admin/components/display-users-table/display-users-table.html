@@ -1,4 +1,4 @@
-<h1 class="text-3xl text-red-400">User List</h1>
+<h1 class="text-3xl text-red-400 mb-2">User List</h1>
 <form class="flex mb-2 gap-3" #searchForm="ngForm" (ngSubmit)="searchUser(searchForm)">
   <input class="px-2 rounded-md" type="text" placeholder="Search user by ID or Username" name="userOrId" #userOrId="ngModel" [(ngModel)]="searchInput.userOrId" required>
   <button class="bg-red-400 rounded-md text-white" type="submit">Search</button>

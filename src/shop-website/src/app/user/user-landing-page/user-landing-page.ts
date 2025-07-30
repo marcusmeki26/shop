@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { User } from '../../service/user';
 import { Observable } from 'rxjs';
 import { Category } from '../../model/category.model';
@@ -10,20 +10,22 @@ import { Product } from '../../model/products.model';
   templateUrl: './user-landing-page.html',
   styleUrl: './user-landing-page.css'
 })
-export class UserLandingPage {
+export class UserLandingPage implements OnInit {
 
-  categories$: Observable<Category[]>;
-  products$: Observable<Product[]>;
+  categories$!: Observable<Category[]>;
+  products$!: Observable<Product[]>;
 
-  constructor(private userService: User){ 
-    this.categories$ = this.userService.getCategories();
-    this.products$ = this.userService.getProducts();
-  }
+  constructor(private userService: User){}
 
   selectedCategory(arg0: string|undefined) {
     throw new Error('Method not implemented.');
   }
   selectedProduct(arg0: string|undefined) {
     throw new Error('Method not implemented.');
+  }
+
+  ngOnInit(): void {
+    this.categories$ = this.userService.getCategories();
+    this.products$ = this.userService.getProducts();
   }
 }
