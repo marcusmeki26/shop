@@ -16,12 +16,11 @@ public class ProductController {
 
     // Used to fetch the products
     @GetMapping
-    public List<ProductDto> getProducts(){
-        return productService.getProducts();
-    }
-
-    @GetMapping("/{productName}")
-    public List<ProductDto> getProductsByName(@PathVariable String productName){
-        return productService.getProductsByName(productName);
+    public List<ProductDto> getProducts(@RequestParam(required = false) String keyword){
+        if(keyword != null){
+            return productService.getProductsByName(keyword);   
+        }else{
+            return productService.getProducts();
+        }
     }
 }
