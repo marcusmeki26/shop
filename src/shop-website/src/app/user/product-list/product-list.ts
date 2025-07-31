@@ -23,8 +23,14 @@ export class ProductList implements OnInit{
   ngOnInit(): void {
     this.activeTab = 'relevance';
     this.route.queryParamMap.subscribe(params => {
-      const keyword = params.get("keyword")
-      this.products$ = this.userService.getProductsByName(keyword);  
+      if(params.has("keyword")){
+        const keyword = params.get("keyword")
+        this.products$ = this.userService.getProductsOrByName(keyword);  
+      }else{
+        let fullUrl = this.router.url;
+        let categoryName = fullUrl.split('?')[0].split('/').pop();
+        this.products$ = this.userService.getProductsByCategory(categoryName);
+      }
     });
   }
 }

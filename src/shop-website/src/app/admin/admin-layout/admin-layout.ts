@@ -30,7 +30,14 @@ export class AdminLayout implements OnInit {
   }
 
   ngOnInit(): void {
-    this.username = this.authService.getUsername();
+    let username =  this.authService.getUsername();
+    if(username === undefined){
+      localStorage.clear();
+      this.router.navigate(['']);
+      return;
+    }else{
+      this.username = username;
+    }
     const fullUrl = this.router.url;
     this.activeTab = fullUrl.split('?')[0].split('/').pop();
   }

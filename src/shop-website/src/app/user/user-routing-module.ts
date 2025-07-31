@@ -14,11 +14,16 @@ const routes: Routes = [
         component: UserLandingPage
       },
       {
-        path: 'search',
+        path: 'products',
+        component: ProductList
+      },
+      {
+        path: 'category/:categoryname',
         component: ProductList
       }
     ]
-  }
+  },
+  { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 
 @NgModule({

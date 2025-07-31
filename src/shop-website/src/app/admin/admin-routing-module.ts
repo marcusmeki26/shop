@@ -16,15 +16,20 @@ const routes: Routes = [
       },
       {
         path: 'user',
-        component: UserList,
+        component: UserList
       },
       {
         path: 'owner',
         component: OwnerList
       },
-      { path: '**', redirectTo: 'dashboard', pathMatch: 'full' }
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
+      },
     ]
   },
+  // { path: '**', redirectTo: 'dashboard'}
 ];
 
 @NgModule({

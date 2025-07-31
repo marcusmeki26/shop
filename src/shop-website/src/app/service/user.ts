@@ -7,9 +7,10 @@ import { ActivatedRoute } from '@angular/router';
 
 @Injectable()
 export class User {
+  
   private BASE_URL = "http://localhost:8080";
 
-  constructor(private http: HttpClient, private route: ActivatedRoute){}
+  constructor(private http: HttpClient){}
   
   // Used for fetching categories 
   getCategories(): Observable<Category[]> {
@@ -17,16 +18,19 @@ export class User {
   }
   
   // Used for fetching products
-  getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.BASE_URL}/product`);
-  }
-
-  getProductsByName(keyword: string | null): Observable<Product[] | null> {
+  getProductsOrByName(keyword?: string | null): Observable<Product[]> {
     if(keyword){
       const productName = new HttpParams().set("keyword", keyword);
       return this.http.get<Product[]>(`${this.BASE_URL}/product`, { params: productName });
+    }else{
+      return this.http.get<Product[]>(`${this.BASE_URL}/product`);
     }
-    
-    return of(null);
+  }
+
+  // Used for fetching products by category
+  getProductsByCategory(categoryName: string | undefined): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.BASE_URL}/product/${categoryName}`);
   }
 }
+
+

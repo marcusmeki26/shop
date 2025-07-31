@@ -2,7 +2,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
-import { map, tap } from 'rxjs';
+import { map, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -23,37 +23,43 @@ export class Auth {
 
 
   // Decode access token to fetch user role
-  getRoleFromToken(){
+  getRoleFromToken(): string | undefined{
     const accessToken = localStorage.getItem("access_token");
     
-    if(accessToken){
-      try{
-        const decodeToken: any = jwtDecode(accessToken);
-        return decodeToken.role;
-      }catch(Error){ 
-        console.log(Error);
-      }
+    if(!accessToken){
+      return undefined;
+    }
+    try{
+      const decodeToken: any = jwtDecode(accessToken);
+      return decodeToken.role;
+    }catch(Error){ 
+      return undefined;
     }
   }
 
   // Decode access token to fetch username
-  getUsername(){
+  getUsername(): string | undefined {
     const accessToken = localStorage.getItem("access_token");
 
-    if(accessToken){
-      try{
-        const decodeToken: any = jwtDecode(accessToken);
-        return decodeToken.sub;
-      }catch(Error){ 
-        console.log(Error);
-      }
+    if(!accessToken){
+      return undefined;
+    }
+
+    try{
+      const decodeToken: any = jwtDecode(accessToken);
+      return decodeToken.sub;
+    }catch(Error){ 
+      return undefined;
     }
   }
 
   // fetch new access token
-  refreshToken() {
+  refreshToken(): Observable<string>{
     const refreshToken = localStorage.getItem("refresh_token");
-    console.log(refreshToken);
+    if(!refreshToken){
+      return throwError(() => new Error("No Refresh Token found"));
+    }
+
     return this.http.post<{accessToken: string}>('http://localhost:8080/refresh', { refreshToken }).pipe(
       tap(response => {
         localStorage.setItem("access_token", response.accessToken)
