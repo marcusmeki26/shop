@@ -27,7 +27,8 @@ export class Login {
         let role = this.authService.getRoleFromToken(); // extract the role from the token
 
         // After extracting, it will define where the logged user should go.
-        if (role.includes('ROLE_USER')) this.router.navigate(['/user']);  
+        if(role === undefined) this.router.navigate(['']);
+        else if (role.includes('ROLE_USER')) this.router.navigate(['/user']);  
         else if (role.includes('ROLE_ADMIN')) this.router.navigate(['/admin']);
         else if (role.includes('ROLE_OWNER')) this.router.navigate(['/owner']);
         // else this.router.navigate(['/unauthorized']);
