@@ -23,4 +23,14 @@ public class ProductController {
             return productService.getProducts();
         }
     }
+
+    @GetMapping("/{categoryName}")
+    public List<ProductDto> getProductsByCategory(@PathVariable String categoryName,
+                                                  @RequestParam(required = false) String keyword){
+        if(keyword != null){
+            return productService.getProductsByCategoryAndName(categoryName, keyword);
+        }else {
+            return productService.getProductsByCategory(categoryName);
+        }
+    }
 }
