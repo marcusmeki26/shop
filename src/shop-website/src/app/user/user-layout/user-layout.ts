@@ -17,6 +17,7 @@ export class UserLayout implements OnInit, OnDestroy{
   username: string = "";
   currentUrl: string | undefined = "";
   placeholder: string = "";
+  placeholderText: string | undefined = "";
 
   constructor(private router: Router, private authService: Auth, private route: ActivatedRoute){}
 
@@ -25,10 +26,22 @@ export class UserLayout implements OnInit, OnDestroy{
   }
 
   searchProduct(searchForm: NgForm) {
-    if((this.currentUrl === "products" || this.currentUrl === "user") && searchForm.value.searchItem != ""){
-      this.router.navigate(['products'], { relativeTo: this.route, queryParams: { keyword: searchForm.value.searchItem } });
+    const keyword = searchForm.value.searchItem.trim();
+    const hasKeyword = keyword !== "";
+
+    if(this.currentUrl === "products" || this.currentUrl === "user"){
+      if(hasKeyword){
+        this.router.navigate(['products'], {
+          relativeTo: this.route,
+          queryParams: { keyword }
+        });
+      }
     }else{
-      this.router.navigate([`category/${this.currentUrl}`], { relativeTo: this.route, queryParams: { keyword: searchForm.value.searchItem }});
+      const queryParams = hasKeyword ? { keyword } : undefined;
+      this.router.navigate([`category/${this.currentUrl}`], {
+        relativeTo: this.route,
+        queryParams
+      });
     }
   }
 
@@ -44,8 +57,8 @@ export class UserLayout implements OnInit, OnDestroy{
     if(this.currentUrl == "products" || this.currentUrl == "user"){
       this.placeholder = "Search for anything!";
     }else{
-      this.currentUrl = this.currentUrl?.replaceAll("-", " ");
-      this.placeholder = `Search in ${this.currentUrl}`;
+      this.placeholderText = this.currentUrl?.replaceAll("-", " ");
+      this.placeholder = `Search in ${this.placeholderText}`;
     }
   }
 
