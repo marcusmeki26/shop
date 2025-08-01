@@ -4,7 +4,7 @@ import com.shop.ShopApplication.Dto.RegisterDto;
 import com.shop.ShopApplication.Dto.LoginDto;
 import com.shop.ShopApplication.Entity.UserPrincipal;
 import com.shop.ShopApplication.Entity.Users;
-import com.shop.ShopApplication.Repository.UserRepository;
+import com.shop.ShopApplication.Repository.JpaRepository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

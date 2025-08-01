@@ -1,4 +1,4 @@
-package com.shop.ShopApplication.Repository;
+package com.shop.ShopApplication.Repository.JpaRepository;
 
 import com.shop.ShopApplication.Dto.ProductDto;
 import com.shop.ShopApplication.Entity.Products;

@@ -1,7 +1,7 @@
 package com.shop.ShopApplication.Service;
 
 import com.shop.ShopApplication.Entity.Category;
-import com.shop.ShopApplication.Repository.CategoryRepository;
+import com.shop.ShopApplication.Repository.JpaRepository.CategoryRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

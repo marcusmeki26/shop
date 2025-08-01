@@ -1,4 +1,4 @@
-package com.shop.ShopApplication.Repository;
+package com.shop.ShopApplication.Repository.JpaRepository;
 
 import com.shop.ShopApplication.Entity.Category;
 import org.springframework.data.jpa.repository.JpaRepository;

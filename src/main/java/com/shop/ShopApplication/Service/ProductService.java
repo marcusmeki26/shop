@@ -5,15 +5,12 @@ import com.shop.ShopApplication.Entity.Category;
 import com.shop.ShopApplication.Entity.Products;
 import com.shop.ShopApplication.Exception.ResourceNotFoundException;
 import com.shop.ShopApplication.Mapper.ProductMapper;
-import com.shop.ShopApplication.Repository.CategoryRepository;
-import com.shop.ShopApplication.Repository.ProductRepository;
+import com.shop.ShopApplication.Repository.JpaRepository.CategoryRepository;
+import com.shop.ShopApplication.Repository.JpaRepository.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service

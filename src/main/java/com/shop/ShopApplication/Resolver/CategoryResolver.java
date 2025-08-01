@@ -2,7 +2,7 @@ package com.shop.ShopApplication.Resolver;
 
 import com.shop.ShopApplication.Entity.Category;
 import com.shop.ShopApplication.Exception.ResourceNotFoundException;
-import com.shop.ShopApplication.Repository.CategoryRepository;
+import com.shop.ShopApplication.Repository.JpaRepository.CategoryRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;

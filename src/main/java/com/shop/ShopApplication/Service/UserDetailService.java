@@ -2,7 +2,7 @@ package com.shop.ShopApplication.Service;
 
 import com.shop.ShopApplication.Entity.UserPrincipal;
 import com.shop.ShopApplication.Entity.Users;
-import com.shop.ShopApplication.Repository.UserRepository;
+import com.shop.ShopApplication.Repository.JpaRepository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

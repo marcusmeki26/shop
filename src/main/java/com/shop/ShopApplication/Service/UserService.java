@@ -2,7 +2,7 @@ package com.shop.ShopApplication.Service;
 
 import com.shop.ShopApplication.Entity.Users;
 import com.shop.ShopApplication.Exception.ResourceNotFoundException;
-import com.shop.ShopApplication.Repository.UserRepository;
+import com.shop.ShopApplication.Repository.JpaRepository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
