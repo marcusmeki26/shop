@@ -1,6 +1,7 @@
 package com.shop.ShopApplication.Service;
 
-import com.shop.ShopApplication.Dto.RegisterDto;
+import com.shop.ShopApplication.Dto.RegisterOwnerDto;
+import com.shop.ShopApplication.Dto.RegisterUserDto;
 import com.shop.ShopApplication.Dto.LoginDto;
 import com.shop.ShopApplication.Entity.UserPrincipal;
 import com.shop.ShopApplication.Entity.Users;
@@ -14,6 +15,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -28,10 +31,21 @@ public class AuthService {
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12); // used final to be excluded from the @AllArgsConstructor
 
     // used for inserting a user
-    public RegisterDto register(RegisterDto user){
-        Users registerUser = RegisterDto.toUser(user);
-        registerUser.setPassword(encoder.encode(user.getPassword())); // This sets the password field as the encrypted password.
-        return RegisterDto.toUser(repo.save(registerUser));
+    public <T> Object register(T user) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method method = user.getClass().getMethod("getRole");
+        String role = method.invoke(user).toString();
+
+        if(role.equalsIgnoreCase("user")){
+            return new RegisterUserDto();
+        }else if(role.equalsIgnoreCase("owner")){
+            return new RegisterOwnerDto();
+        }
+
+        throw new IllegalArgumentException("Unsupported user type: " + user.getClass().getName());
+
+//        Users registerUser = RegisterDto.toUser(user);
+//        registerUser.setPassword(encoder.encode(user.getPassword())); // This sets the password field as the encrypted password.
+//        return RegisterDto.toUser(repo.save(registerUser));
     }
 
     // used for verifying a user during login
