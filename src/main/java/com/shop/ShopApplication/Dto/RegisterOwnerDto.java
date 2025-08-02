@@ -1,5 +1,6 @@
 package com.shop.ShopApplication.Dto;
 
+import com.shop.ShopApplication.Interface.Registerable;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class RegisterOwnerDto extends RegisterUserDto{
+public class RegisterOwnerDto extends RegisterUserDto implements Registerable {
 
     @NotEmpty(message = "Shop name should not be empty")
     private String shopName;
