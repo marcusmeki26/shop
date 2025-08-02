@@ -16,18 +16,23 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(nullable = false)
     private String userId;
-    @Column(name="username")
+    @Column(nullable = false, unique = true)
     private String username;
-    @Column(name="password")
+    @Column(nullable = false)
     private String password;
-    @Column(name="role")
+    @Column(nullable = false)
     private String role;
 
     // To enable derived method naming convention
     @OneToMany(mappedBy = "ownerId")
-    @JsonBackReference
+    @JsonBackReference // Prevents Infinite recursion
     private List<Products> productsList;
+
+    @OneToOne(mappedBy = "userId")
+    @JsonBackReference
+    private Shops shop;
 
     // Called when .save() method is used
     @PrePersist
