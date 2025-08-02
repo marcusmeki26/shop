@@ -1,13 +1,15 @@
 package com.shop.ShopApplication.Controller;
 
 import com.shop.ShopApplication.Dto.RefreshTokenDto;
-import com.shop.ShopApplication.Dto.RegisterDto;
+import com.shop.ShopApplication.Dto.RegisterOwnerDto;
+import com.shop.ShopApplication.Dto.RegisterUserDto;
 import com.shop.ShopApplication.Dto.LoginDto;
 import com.shop.ShopApplication.Service.AuthService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 @RestController
@@ -16,9 +18,14 @@ public class AuthController {
 
     private AuthService authService;
 
-    @PostMapping("/register")
-    public RegisterDto register(@Valid @RequestBody RegisterDto user){
-        return authService.register(user);
+    @PostMapping("/register/user")
+    public RegisterUserDto registerUser(@Valid @RequestBody RegisterUserDto user) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        return (RegisterUserDto) authService.register(user);
+    }
+
+    @PostMapping("/register/owner")
+    public RegisterOwnerDto registerOwner(@Valid @RequestBody RegisterOwnerDto user) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        return (RegisterOwnerDto) authService.register(user);
     }
 
     @PostMapping("/login")
