@@ -24,6 +24,15 @@ input[type="text"]{
   transition: .3s;
 }
 
+.cart-icon{
+  width: 4rem;
+  cursor: pointer;
+}
+
+.cart-icon:hover{
+  opacity: .5;
+}
+
 main{
   background-color: rgb(245, 245, 245);
 }

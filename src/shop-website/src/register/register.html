@@ -1,17 +1,72 @@
 <div class="flex w-full h-screen items-center justify-center bg-red-400">
-  <div class="register-container p-4">
-    <h1 class="mb-5 text-2xl text-white">Registration</h1>
-    <form class="flex flex-col" #newUser="ngForm" (ngSubmit)="registerUser(newUser)">
-      <input class="mb-5 rounded-md text-2xl px-2" type="text" name="username" #username="ngModel" [(ngModel)]="userCred.username" required />
-      <input class="mb-5 rounded-md text-2xl px-2" type="password" name="password" #password="ngModel" [(ngModel)]="userCred.password" required />
-      <select class="mb-5 rounded-md text-2xl px-2" name="role" #role="ngModel" [(ngModel)]="userCred.role">
-        <option value="user">User</option>
-        <option value="owner">Owner</option>
-      </select>
-      <div class="flex gap-3 h-8">
-        <button class="w-full bg-red-400 text-xl text-white rounded-md" type="submit">Register</button>
-        <button class="w-full bg-red-400 text-xl text-white rounded-md" type="button" (click)="goBack()">Cancel</button>
-      </div>
-    </form>
+  <div class="flex items-center gap-5">
+    <div class="form-container p-4" style="height: max-content;">
+      <h1 class="mb-5 text-2xl text-white">Registration</h1>
+      <form class="flex flex-col gap-2" [formGroup]="registerForm" (ngSubmit)="registerUser()">
+        <!-- USERNAME INPUT -->
+        <div class="flex flex-col">
+          <input class="rounded-md text-2xl px-2" type="text" formControlName="username" placeholder="Enter username"  />
+          <div *ngIf="registerForm.get('username') as username">
+            <span *ngIf="username.invalid && isSubmitted" class="error-message">Username is required</span>
+          </div>
+        </div>
+        <!-- PASSWORD INPUT -->
+        <div class="flex flex-col">
+          <input class="rounded-md text-2xl px-2" type="password" formControlName="password"  placeholder="Enter password" />
+          <div *ngIf="registerForm.get('password') as password">
+            <span *ngIf="password.invalid && isSubmitted" class="error-message">Password is required</span>
+          </div>
+        </div>
+        <!-- ROLE INPUT -->
+        <div class="flex flex-col">
+          <select class="rounded-md text-2xl px-2" formControlName="role">
+            <option value="" [disabled]="registerForm.get('role')?.value !== ''">Select a role</option>
+            <option value="user">User</option>
+            <option value="owner">Owner</option>
+          </select>
+          <div *ngIf="registerForm.get('role') as role">
+            <span *ngIf="role.invalid && isSubmitted" class="error-message">Role is required</span>
+          </div>
+        </div>
+        <div *ngIf="isOwner" class="border-white border-t mt-2 py-2">
+          <h1 class="mb-5 text-2xl text-white">Owner's Additional Details</h1>
+          <div class="flex flex-col gap-2" formGroupName="ownerDetails">
+            <!-- SHOPNAME INPUT -->
+            <div class="flex flex-col">
+              <input class="rounded-md text-2xl px-2" type="text" formControlName="shopName" placeholder="Enter shop name"  />
+              <div *ngIf="registerForm.get('ownerDetails.shopName') as shopName">
+                <span *ngIf="shopName.invalid && isSubmitted" class="error-message">Shop name is required</span>
+              </div>
+            </div>
+            <!-- DESCRIPTION INPUT -->
+            <div class="flex flex-col">
+              <textarea class="rounded-md text-lg p-2" type="text" formControlName="description" placeholder="Enter shop desciption" rows="5"></textarea>
+              <div *ngIf="registerForm.get('ownerDetails.description') as description">
+                <span *ngIf="description.invalid && isSubmitted" class="error-message">Shop's description is required</span>
+              </div>
+            </div>
+            <!-- PHONE NUMBER INPUT -->
+            <div class="flex flex-col">
+              <input class="rounded-md text-2xl px-2" type="text" formControlName="phoneNumber" placeholder="Enter phone number" maxlength="11"  />
+              <div *ngIf="registerForm.get('ownerDetails.phoneNumber') as phoneNumber">
+                <span *ngIf="phoneNumber.errors?.['required'] && isSubmitted" class="error-message">Phone number is required</span>
+                <span *ngIf="phoneNumber.errors?.['pattern'] && isSubmitted" class="error-message">Should be a number</span>
+              </div>
+            </div>
+            <!-- SHOP IMG INPUT -->
+            <div class="flex flex-col">
+              <input class="rounded-md text-2xl px-2" type="file" formControlName="shopImg" placeholder="Enter phone number"  />
+              <div *ngIf="registerForm.get('ownerDetails.shopImg') as shopImg">
+                <span *ngIf="shopImg.invalid && isSubmitted" class="error-message">Shop image is required</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex gap-3 h-8">
+          <button class="w-full bg-red-400 text-xl text-white rounded-md" type="submit">Register</button>
+          <button class="w-full bg-red-400 text-xl text-white rounded-md" type="button" (click)="goBack()">Cancel</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

@@ -1,4 +1,4 @@
-.register-container{
+.form-container{
   background: rgba(255, 255, 255, 0.2);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -11,4 +11,8 @@ button:hover{
   background-color: transparent;
   color: #ff6467;
   transition: .3s;
+}
+
+.error-message{
+  color: red;
 }

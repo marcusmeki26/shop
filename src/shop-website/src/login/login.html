@@ -2,8 +2,8 @@
   <div class="login-container p-4">
     <h1 class="mb-5 text-2xl text-white">Login</h1>
     <form class="flex flex-col" #loginForm="ngForm" (ngSubmit)="checkCred(loginForm)">
-      <input class="mb-5 rounded-md text-2xl px-2" type="text" name="username" #username="ngModel" [(ngModel)]="userCred.username" required />
-      <input class="mb-5 rounded-md text-2xl px-2" type="password" name="password" #password="ngModel" [(ngModel)]="userCred.password" required />
+      <input class="mb-5 rounded-md text-2xl px-2" type="text" name="username" #username="ngModel" [(ngModel)]="userCred.username" placeholder="Enter username" required />
+      <input class="mb-5 rounded-md text-2xl px-2" type="password" name="password" #password="ngModel" [(ngModel)]="userCred.password" placeholder="Enter password" required />
       <div class="flex gap-3 h-8">
         <button class="bg-red-400 text-xl text-white rounded-md w-full" type="submit">Login</button>
         <button (click)="register()" class="bg-red-400 text-xl text-white rounded-md w-full" type="button">Register</button>

@@ -28,8 +28,13 @@ export class User {
   }
 
   // Used for fetching products by category
-  getProductsByCategory(categoryName: string | undefined): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.BASE_URL}/product/${categoryName}`);
+  getProductsByCategory(categoryName: string | undefined, keyword?: string | null): Observable<Product[]> {
+    if(keyword){
+      const productName = new HttpParams().set("keyword", keyword);
+      return this.http.get<Product[]>(`${this.BASE_URL}/product/${categoryName}`, { params: productName });
+    }else{
+      return this.http.get<Product[]>(`${this.BASE_URL}/product/${categoryName}`);
+    }
   }
 }
 

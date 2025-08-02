@@ -1,0 +1,31 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+header{
+  border-bottom: 1px solid #ff6467;
+  height: 4rem;
+}
+
+nav{
+  width: 10%;
+  border-right: 1px solid #ff6467;
+}
+
+.active{
+  background-color: #ff6467;
+  padding: 0 .5rem;
+  color: white;
+}
+
+.active:hover{
+  background-color: white;
+  color: #ff6467;
+  transition: .5s;
+}
+
+.nav-li{
+  padding: 0 .5rem;
+  cursor: pointer;
+}

@@ -1,2 +1,38 @@
-<p>This is for the header</p>
-<router-outlet></router-outlet>
+<div class="flex flex-col h-full">
+  <header class="flex px-3 items-center justify-between">
+    <h1 class="text-4xl text-red-400">Shoppu</h1>
+    <ul class="flex items-center gap-5 pr-10 text-red-400 text-lg">
+      <li>{{ username }}</li>
+      <li>
+        <button (click)="logout()">Logout</button>
+      </li>
+    </ul>
+  </header>
+  <div class="nav-main-container flex flex-grow">
+    <nav class="text-lg text-red-400 pt-3">
+      <ul>
+        <li 
+        class="nav-li"
+        [ngClass]="{ 'active' : activeTab === 'dashboard' }"
+        (click)="clickedTab('dashboard')">
+          Dashboard
+        </li>
+        <li
+        class="nav-li"
+        [ngClass]="{ 'active' : activeTab === 'user' }"
+        (click)="clickedTab('user')">
+          User
+        </li>
+        <li 
+        class="nav-li"
+        [ngClass]="{ 'active' : activeTab === 'owner' }"
+        (click)="clickedTab('owner')">
+          Owner
+        </li>
+      </ul>
+    </nav>
+    <main class="p-4" style="flex: 1;">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
