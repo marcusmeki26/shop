@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Optional;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -18,7 +20,9 @@ public class RegisterDto {
     private String password;
     @NotEmpty(message="Please include a role")
     private String role;
+    private Optional<String> shopName;
 
+    // Move to a mapper
     public static RegisterDto toUser(Users user){
         RegisterDto userDto = new RegisterDto();
         userDto.setUsername(user.getUsername());
