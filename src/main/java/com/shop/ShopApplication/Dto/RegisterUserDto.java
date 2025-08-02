@@ -13,18 +13,17 @@ import java.util.Optional;
 @NoArgsConstructor
 @Setter
 @Getter
-public class RegisterDto {
+public class RegisterUserDto {
     @NotEmpty(message="Username should not be empty")
     private String username;
     @NotEmpty(message="Password should not be empty")
     private String password;
     @NotEmpty(message="Please include a role")
     private String role;
-    private Optional<String> shopName;
 
     // Move to a mapper
-    public static RegisterDto toUser(Users user){
-        RegisterDto userDto = new RegisterDto();
+    public static RegisterUserDto toUser(Users user){
+        RegisterUserDto userDto = new RegisterUserDto();
         userDto.setUsername(user.getUsername());
         userDto.setPassword(user.getPassword());
         userDto.setRole(user.getRole());
@@ -32,7 +31,7 @@ public class RegisterDto {
         return userDto;
     }
 
-    public static Users toUser(RegisterDto user) {
+    public static Users toUser(RegisterUserDto user) {
         Users registerUser = new Users();
         registerUser.setUsername(user.getUsername());
         registerUser.setPassword(user.getPassword());
