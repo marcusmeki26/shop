@@ -50,4 +50,15 @@ public class GlobalExceptionHandler {
         ErrorMessage error = new ErrorMessage(LocalDateTime.now(), HttpStatus.UNAUTHORIZED.value(), "Invalid Signature", Map.of("Signature", "Invalid"));
         return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorMessage> handleClassCastException(IllegalArgumentException e){
+        if(e.getMessage().contains("Unsupported Role")){
+            ErrorMessage error = new ErrorMessage(LocalDateTime.now(), HttpStatus.UNAUTHORIZED.value(), "Invalid Role", Map.of("Role", "Not Supported"));
+            return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+        }
+
+        ErrorMessage error = new ErrorMessage(LocalDateTime.now(), HttpStatus.UNAUTHORIZED.value(), "Not Handled", Map.of("Message", "Not Handled"));
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+    }
 }

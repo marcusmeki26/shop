@@ -9,7 +9,6 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 @RestController
@@ -19,12 +18,12 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/register/user")
-    public RegisterUserDto registerUser(@Valid @RequestBody RegisterUserDto user) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public RegisterUserDto registerUser(@Valid @RequestBody RegisterUserDto user){
         return (RegisterUserDto) authService.register(user);
     }
 
     @PostMapping("/register/owner")
-    public RegisterOwnerDto registerOwner(@Valid @RequestBody RegisterOwnerDto user) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public RegisterOwnerDto registerOwner(@Valid @RequestBody RegisterOwnerDto user){
         return (RegisterOwnerDto) authService.register(user);
     }
 

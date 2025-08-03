@@ -1,12 +1,12 @@
 package com.shop.ShopApplication.Service;
 
-import com.shop.ShopApplication.Dto.RegisterOwnerDto;
 import com.shop.ShopApplication.Dto.RegisterUserDto;
 import com.shop.ShopApplication.Dto.LoginDto;
 import com.shop.ShopApplication.Entity.UserPrincipal;
 import com.shop.ShopApplication.Entity.Users;
 import com.shop.ShopApplication.Interface.Registerable;
 import com.shop.ShopApplication.Repository.JpaRepository.UserRepository;
+import com.shop.ShopApplication.Strategies.Interface.RegisterableStrategy;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,23 +27,17 @@ public class AuthService {
     private AuthenticationManager authManager;
     private JWTService jwtService;
     private UserRepository repo;
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12); // used final to be excluded from the @AllArgsConstructor
+    private List<RegisterableStrategy> strategies; // used final to be excluded from the @AllArgsConstructor
 
     // used for inserting a user
     public Registerable register(Registerable user) {
-        String role = user.getRole();
+        RegisterableStrategy strategy = strategies.stream()
+                .filter(s -> s.supports(user.getRole()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Unsupported Role"));
 
-        if(role.equalsIgnoreCase("user")){
-            return new RegisterUserDto();
-        }else if(role.equalsIgnoreCase("owner")){
-            return new RegisterOwnerDto();
-        }
-
-
-//        Users registerUser = RegisterDto.toUser(user);
-//        registerUser.setPassword(encoder.encode(user.getPassword())); // This sets the password field as the encrypted password.
-//        return RegisterDto.toUser(repo.save(registerUser));
-        return null;
+        Registerable processedUser = strategy.process(user);
+        return strategy.save(processedUser);
     }
 
     // used for verifying a user during login

@@ -16,7 +16,7 @@ public class Shops {
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
     @JsonManagedReference
-    private Users userId;
+    private Users user;
 
     @Column(nullable = false, unique = true)
     private String shopName;

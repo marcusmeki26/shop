@@ -12,7 +12,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RegisterOwnerDto extends RegisterUserDto implements Registerable {
-
     @NotEmpty(message = "Shop name should not be empty")
     private String shopName;
     @NotEmpty(message = "Shop's description should not be empty")

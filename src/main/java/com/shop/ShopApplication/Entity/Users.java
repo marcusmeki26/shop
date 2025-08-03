@@ -30,7 +30,7 @@ public class Users {
     @JsonBackReference // Prevents Infinite recursion
     private List<Products> productsList;
 
-    @OneToOne(mappedBy = "userId")
+    @OneToOne(mappedBy = "user")
     @JsonBackReference
     private Shops shop;
 
