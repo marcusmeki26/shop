@@ -58,7 +58,7 @@ public class GlobalExceptionHandler {
             return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
         }
 
-        ErrorMessage error = new ErrorMessage(LocalDateTime.now(), HttpStatus.UNAUTHORIZED.value(), "Not Handled", Map.of("Message", "Not Handled"));
+        ErrorMessage error = new ErrorMessage(LocalDateTime.now(), HttpStatus.UNAUTHORIZED.value(), e.getMessage(), Map.of("Message", "Not Handled"));
         return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
 }

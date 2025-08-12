@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Shop } from '../../model/shop.model';
 
 @Component({
   selector: 'app-dashboard',

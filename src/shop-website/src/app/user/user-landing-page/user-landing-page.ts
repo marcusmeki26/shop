@@ -26,7 +26,7 @@ export class UserLandingPage implements OnInit {
 
     categoryName = categoryName.replaceAll(" ", "-");
 
-    this.router.navigate([`/category/${categoryName}`]);
+    this.router.navigate([`category/${categoryName}`], { relativeTo: this.route });
   }
 
   selectedProduct(arg0: string|undefined) {

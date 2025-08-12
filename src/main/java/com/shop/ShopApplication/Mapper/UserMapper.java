@@ -21,6 +21,6 @@ public interface UserMapper {
     @Mapping(target = "shopName", source = "shopName")
     @Mapping(target = "description", source = "description")
     @Mapping(target = "phoneNumber", source = "phoneNumber")
-    @Mapping(target = "shopImg", source = "shopImage")
+    @Mapping(target = "shopImg", source = "shopImg")
     Shops RegisterOwnerShopDetailsToShop(RegisterOwnerDto registerOwner);
 }

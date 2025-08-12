@@ -6,12 +6,13 @@ import { App } from './app';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { JwtInterceptor } from './shared/interceptors/jwt-interceptor';
-import { AdminModule } from './admin/admin-module';
-import { UserModule } from './user/user-module';
-import { ShopOwnerModule } from './shop-owner/shop-owner-module';
 import { Login } from '../login/login';
 import { Register } from '../register/register';
-
+import { NgxsModule } from '@ngxs/store';
+import { ShopDetailsState } from './state/ShopDetails.state';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ComponentsModule } from './shared/components/components-module';
+ 
 @NgModule({
   declarations: [
     App,
@@ -24,9 +25,9 @@ import { Register } from '../register/register';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    AdminModule,
-    UserModule,
-    ShopOwnerModule
+    BrowserAnimationsModule,
+    NgxsModule.forRoot([ShopDetailsState]),
+    ComponentsModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),

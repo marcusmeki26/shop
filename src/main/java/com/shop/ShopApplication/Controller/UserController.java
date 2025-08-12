@@ -1,6 +1,5 @@
 package com.shop.ShopApplication.Controller;
 
-import com.shop.ShopApplication.Dto.RoleDto;
 import com.shop.ShopApplication.Entity.Users;
 import com.shop.ShopApplication.Service.UserService;
 import lombok.AllArgsConstructor;

@@ -76,7 +76,11 @@ export class Auth {
   }
 
   // For register method
-  register(newUser: UserLogin) {
-    return this.http.post("http://localhost:8080/register", newUser);
+  registerUser(newUser: FormData) {
+    return this.http.post("http://localhost:8080/register/user", newUser);
+  }
+
+  registerOwner(newOwner: FormData) {
+    return this.http.post("http://localhost:8080/register/owner", newOwner);
   }
 }

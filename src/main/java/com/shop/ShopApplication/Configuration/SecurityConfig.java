@@ -38,7 +38,7 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable) // disables the csrf
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/login", "/register/user", "/register/owner", "/refresh") // This removes the need for the user to be authenticated first before logging in. Basically you can perform a POST method without the need of being authenticated.
+                        .requestMatchers("/login", "/register/owner", "/register/user", "/refresh") // This removes the need for the user to be authenticated first before logging in. Basically you can perform a POST method without the need of being authenticated.
                         .permitAll()
                         .anyRequest().authenticated()) // tells the spring that every http request should be authenticated
                 .httpBasic(Customizer.withDefaults()) // this lets you test endpoints quickly from tools like postman.
@@ -68,7 +68,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of("http://localhost:4200")); // Allow your frontend origin
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // List of allowed methods
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH" ,"OPTIONS")); // List of allowed methods
         config.setAllowedHeaders(List.of("*")); // Allowed headers
         config.setAllowCredentials(true); // Required for Authorization header or cookies
 

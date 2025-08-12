@@ -29,3 +29,12 @@ nav{
   padding: 0 .5rem;
   cursor: pointer;
 }
+
+.custom-dropdown{
+  transition: all ease .3s;
+}
+
+.custom-dropdown img{
+  filter: brightness(0);
+  width: .8rem;
+}

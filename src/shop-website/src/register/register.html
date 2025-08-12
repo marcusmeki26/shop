@@ -55,7 +55,7 @@
             </div>
             <!-- SHOP IMG INPUT -->
             <div class="flex flex-col">
-              <input class="rounded-md text-2xl px-2" type="file" formControlName="shopImg" placeholder="Enter phone number"  />
+              <input class="rounded-md text-2xl px-2" type="file" formControlName="shopImg" placeholder="Enter phone number" accept=".jpg, .jpeg, .png" (change)="onFileInput($event)" />
               <div *ngIf="registerForm.get('ownerDetails.shopImg') as shopImg">
                 <span *ngIf="shopImg.invalid && isSubmitted" class="error-message">Shop image is required</span>
               </div>
