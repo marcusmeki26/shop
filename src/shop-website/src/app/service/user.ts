@@ -21,9 +21,9 @@ export class User {
   getProductsOrByName(keyword?: string | null): Observable<Product[]> {
     if(keyword){
       const productName = new HttpParams().set("keyword", keyword);
-      return this.http.get<Product[]>(`${this.BASE_URL}/product`, { params: productName });
+      return this.http.get<Product[]>(`${this.BASE_URL}/product/user`, { params: productName });
     }else{
-      return this.http.get<Product[]>(`${this.BASE_URL}/product`);
+      return this.http.get<Product[]>(`${this.BASE_URL}/product/user`);
     }
   }
 

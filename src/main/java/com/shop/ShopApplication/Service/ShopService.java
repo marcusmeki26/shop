@@ -58,15 +58,8 @@ public class ShopService {
         Users user = userRepository.findById(currentUser) // looks for a user
                 .orElseThrow(() ->  new ResourceNotFoundException("No Resource Found", HttpStatus.NOT_FOUND.value()));
 
-        Shops shop =  shopRepository.findByUserId(user.getId()) // looks for a shop that has the user id
+        return shopRepository.findByUserId(user.getId()) // looks for a shop that has the user id & returns if there is
                 .orElseThrow(() -> new ResourceNotFoundException("No Resource Found", HttpStatus.NOT_FOUND.value()));
-
-        // checks if the shop owner id is matching with the id of the incoming request
-        if(!currentUser.equals(shop.getUser().getId())){
-            throw new ResourceNotFoundException("No matching shop for the given owner", HttpStatus.NOT_FOUND.value());
-        }
-
-        return shop;
     }
 
     public ResponseEntity<Resource> getImage(String filename) {

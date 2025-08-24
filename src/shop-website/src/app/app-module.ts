@@ -12,6 +12,7 @@ import { NgxsModule } from '@ngxs/store';
 import { ShopDetailsState } from './state/ShopDetails.state';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ComponentsModule } from './shared/components/components-module';
+import { ShopProductsState } from './state/ShopProducts.state';
  
 @NgModule({
   declarations: [
@@ -26,7 +27,7 @@ import { ComponentsModule } from './shared/components/components-module';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    NgxsModule.forRoot([ShopDetailsState]),
+    NgxsModule.forRoot([ShopDetailsState, ShopProductsState]),
     ComponentsModule
   ],
   providers: [

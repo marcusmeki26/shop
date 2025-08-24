@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,15 +24,31 @@ public class Users {
     private String password;
     @Column(nullable = false)
     private String role;
+    @Column(nullable = false)
+    private LocalDateTime dateCreated;
+    @Column(nullable = false)
+    private LocalDateTime dateUpdated;
 
     // To enable derived method naming convention
-    @OneToMany(mappedBy = "ownerId")
+    @OneToMany(mappedBy = "owner")
     @JsonBackReference // Prevents Infinite recursion
     private List<Products> productsList;
 
     @OneToOne(mappedBy = "user")
     @JsonBackReference
     private Shops shop;
+
+    @OneToMany(mappedBy = "user")
+    @JsonBackReference
+    private List<Reviews> reviews;
+
+    @OneToMany(mappedBy = "user")
+    @JsonBackReference
+    private List<Favorites> favorites;
+
+    @OneToMany(mappedBy = "user")
+    @JsonBackReference
+    private List<UserFollowers> following;
 
     // Called when .save() method is used
     @PrePersist
