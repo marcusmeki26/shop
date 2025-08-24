@@ -32,7 +32,7 @@ export class ShopDetailsState{
   }
 
   @Action(UpdateShop)
-  updateShop(ctx: StateContext<Shop>, action: AddShop){
+  updateShop(ctx: StateContext<Shop>, action: UpdateShop){
     const payload = action.payload;
     ctx.patchState(payload);
   }

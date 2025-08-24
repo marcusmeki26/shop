@@ -9,7 +9,6 @@ import { ShopDetails } from './shop-details/shop-details';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentsModule } from '../shared/components/components-module';
-import { ShopProducts } from './shop-products/shop-products';
 
 
 @NgModule({
@@ -17,7 +16,6 @@ import { ShopProducts } from './shop-products/shop-products';
     Dashboard,
     OwnerLayout,
     ShopDetails,
-    ShopProducts
   ],
   imports: [
     CommonModule,

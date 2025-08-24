@@ -1,0 +1,9 @@
+.product-item{
+  max-height: 13rem;
+}
+
+.product-item img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

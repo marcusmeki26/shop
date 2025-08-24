@@ -1,8 +1,13 @@
 export interface Product{
-  id?: number,
-  productName?: string,
-  price?: number,
+  productId?: number,
   imagePath?: string,
+  price?: number,
+  productName?: string,
   categoryId?: number,
-  ownerId?: number
+  ownerId?: number,
+  quantity?: number,
+}
+
+export interface OwnerProduct extends Product{
+  dateAdded: string
 }

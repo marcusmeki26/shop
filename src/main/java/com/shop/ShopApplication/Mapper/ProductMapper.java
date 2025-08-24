@@ -1,6 +1,7 @@
 package com.shop.ShopApplication.Mapper;
 
-import com.shop.ShopApplication.Dto.ProductDto;
+import com.shop.ShopApplication.Dto.Products.ProductDto;
+import com.shop.ShopApplication.Dto.Products.forOwnerProductDto;
 import com.shop.ShopApplication.Entity.Document.ProductDocument;
 import com.shop.ShopApplication.Entity.Products;
 import com.shop.ShopApplication.Resolver.CategoryResolver;
@@ -27,4 +28,6 @@ public interface ProductMapper {
     @Mapping(target = "productId", expression = "java(Integer.parseInt(productDocuments.getId()))")
     ProductDto fromProductDocumentToProductDto(ProductDocument productDocuments);
     List<ProductDto> fromProductDocumentToProductDto(List<ProductDocument> productDocuments);
+
+    List<forOwnerProductDto> fromProductsToOwnerProductsDto(List<Products> products);
 }

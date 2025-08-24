@@ -1,1 +1,28 @@
-<p>This will include all the products per category</p>
+@if(isLoading$ | async) {
+  <section>
+    <!-- CREATE TAYO NG SHARED CSS STYLE FOR BUTTONS -->
+    <button>Add Product</button>
+    @if(products$ | async; as products){
+      <div class="grid grid-cols-6 gap-8 mt-4">
+        @for(product of products; track product.productId){
+          <div class="product-item">
+            <img [src]="product.imagePath" alt="">
+            <div class="flex flex-col">
+              <span>{{ product.productName }}</span>
+              <span>{{ product.quantity }}</span>
+              <span>{{ product.price }}</span>
+              <span>{{ product.dateAdded }}</span>
+            </div>
+            <!-- Gawin natin pa modal yung functions ng buttons -->
+            <button>Edit</button>
+            <button>Delete</button>
+          </div>
+        }
+      </div>
+    } 
+  </section>
+}@else {
+  <section>
+    <app-loading-screen></app-loading-screen>
+  </section>
+}

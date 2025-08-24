@@ -1,10 +1,14 @@
 package com.shop.ShopApplication.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -28,4 +32,18 @@ public class Shops {
     private String description;
     @Column(nullable = false)
     private String shopImg;
+    @Column(nullable = false)
+    private LocalDateTime dateJoined;
+
+    @OneToMany(mappedBy = "shop")
+    @JsonBackReference
+    private List<UserFollowers> shopFollowing;
+
+    @OneToMany(mappedBy = "followerShop")
+    @JsonBackReference
+    private List<ShopFollowers> followerShop;
+
+    @OneToMany(mappedBy = "followedShop")
+    @JsonBackReference
+    private List<ShopFollowers> followingShop;
 }
